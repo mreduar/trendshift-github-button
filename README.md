@@ -24,15 +24,17 @@ page (`/repositories/43167`), not to GitHub. This script reads that
 1. Install a userscript manager:
    [Tampermonkey](https://www.tampermonkey.net/) or
    [Violentmonkey](https://violentmonkey.github.io/).
-2. Click **Install this script** on this Greasy Fork page.
-3. Confirm the installation in the manager.
+2. Install the script: click the **install** button wherever you found it
+   (e.g. Greasy Fork) or open the raw `.user.js` file directly.
+3. Confirm the installation in your userscript manager.
 4. Open [trendshift.io](https://trendshift.io/) and you'll see the button next
    to each repo.
 
 ### ⚠️ Important on Chrome / Edge (Tampermonkey)
 
-Recent versions of Chrome and Edge require enabling a permission for userscripts
-to run. If **no button appears**:
+Recent versions of Chrome and Edge require
+[enabling a permission for userscripts to run](https://www.tampermonkey.net/faq.php?q=Q209#Q209).
+If **no button appears**:
 
 1. Go to `chrome://extensions` (or `edge://extensions`).
 2. Open the **Tampermonkey** card.
