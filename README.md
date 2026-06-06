@@ -1,30 +1,85 @@
 # Trendshift → GitHub button
 
-A userscript that adds a **↗ GitHub** button next to every repository on
-[trendshift.io](https://trendshift.io/), opening the matching
-`https://github.com/owner/repo` in a new tab.
+Adds a **↗ GitHub** button next to each repository listed on
+[trendshift.io](https://trendshift.io/) so you can open the matching repo on
+GitHub, in a new tab, with no extra steps.
 
-## Install
+On Trendshift, each repo is shown as `owner/repo` (for example
+`pewdiepie-archdaemon/odysseus`), but the link takes you to Trendshift's own
+page (`/repositories/43167`), not to GitHub. This script reads that
+`owner/repo` and builds `https://github.com/owner/repo` directly.
 
-1. Install [Tampermonkey](https://www.tampermonkey.net/) or
+---
+
+## ✨ What it does
+
+- Inserts a **↗ GitHub** button to the right of each repository in the list.
+- Clicking it opens `https://github.com/owner/repo` in a **new tab**.
+- Works with content loaded dynamically (scrolling, client-side navigation)
+  thanks to a `MutationObserver`.
+- Keeps you on Trendshift: clicking the button does not trigger the card link.
+
+## 🚀 Installation
+
+1. Install a userscript manager:
+   [Tampermonkey](https://www.tampermonkey.net/) or
    [Violentmonkey](https://violentmonkey.github.io/).
-2. Install the script:
-   [`trendshift-github.user.js`](./trendshift-github.user.js).
-3. Open https://trendshift.io/ — a **↗ GitHub** button appears next to each repo.
+2. Click **Install this script** on this Greasy Fork page.
+3. Confirm the installation in the manager.
+4. Open [trendshift.io](https://trendshift.io/) and you'll see the button next
+   to each repo.
 
-### Chrome / Edge
+### ⚠️ Important on Chrome / Edge (Tampermonkey)
 
-Enable **"Allow User Scripts"** in the Tampermonkey card at
-`chrome://extensions`, otherwise userscripts won't run. (Not needed on Firefox.)
+Recent versions of Chrome and Edge require enabling a permission for userscripts
+to run. If **no button appears**:
 
-## How it works
+1. Go to `chrome://extensions` (or `edge://extensions`).
+2. Open the **Tampermonkey** card.
+3. Enable **"Allow User Scripts"**.
+4. Reload trendshift.io.
 
-Trendshift shows each repo as `owner/repo` but links to its own page
-(`/repositories/<id>`). The script reads that text and builds the GitHub URL
-directly. It uses a `MutationObserver` to handle dynamically loaded content, and
-renders the button above Trendshift's full-card overlay so the click isn't
-hijacked.
+> This step is not needed on Firefox.
 
-## License
+## 🖱️ Usage
 
-MIT © mreduar
+There is nothing to configure. Once installed, browse Trendshift as usual and
+use the **↗ GitHub** button on any repository you want to open.
+
+## 🔒 Privacy and permissions
+
+- Runs **only** on `https://trendshift.io/*`.
+- `@grant none`: no privileged manager APIs are used.
+- It does **not** collect, send or store any data. Everything happens in your
+  browser.
+- It makes no network requests of its own; it just adds a regular link to
+  GitHub.
+
+## 🧩 Compatibility
+
+| Browser     | Tampermonkey  | Violentmonkey |
+|-------------|:-------------:|:-------------:|
+| Chrome      | ✅ (see note) | ✅ |
+| Edge        | ✅ (see note) | ✅ |
+| Firefox     | ✅            | ✅ |
+| Brave/Opera | ✅ (see note) | ✅ |
+
+## 🛠️ How it works (technical)
+
+- Selects the links `a[href^="/repositories/"]`.
+- Filters only those whose text matches the `owner/repo` pattern
+  (`/^[A-Za-z0-9][A-Za-z0-9._-]*\/[A-Za-z0-9._-]+$/`), ignoring icons or other
+  links to the same page.
+- Marks each processed link with `data-ts-gh-done` to avoid duplicate buttons.
+- The button uses `position: relative; z-index` to sit above the
+  `::after { inset: 0 }` overlay that Trendshift places over the cards, and
+  `stopPropagation()` so the click does not activate the card.
+
+## 📝 Notes
+
+- If Trendshift changes the repo text format, the button might stop appearing in
+  some cases; open a report and I'll adjust it.
+
+---
+
+**Author:** mreduar · **License:** MIT
